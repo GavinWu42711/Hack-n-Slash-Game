@@ -5,10 +5,10 @@ extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -350.0
 
-var weapon_equip: bool
+
 
 func _ready() -> void:
-	weapon_equip = false
+	pass
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -31,6 +31,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func handle_movement_animation(dir):
+	var weapon_equip = global_script.playerWeaponEquip
 	if !weapon_equip:
 		if !velocity:
 			animated_sprite.play("idle")
