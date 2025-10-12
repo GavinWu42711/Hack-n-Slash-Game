@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://bdtxho0h25ho8"]
+[gd_scene load_steps=12 format=3 uid="uid://bdtxho0h25ho8"]
 
 [ext_resource type="Texture2D" uid="uid://ded87uroi4h55" path="res://art/Itchio Art/Background.png" id="1_svt74"]
 [ext_resource type="Script" uid="uid://ogxxai1cyrcr" path="res://script/stage_level.gd" id="1_vdh54"]
 [ext_resource type="Texture2D" uid="uid://duchalb8lyftr" path="res://art/Itchio Art/Bushes-16x16.png" id="2_d8w7t"]
 [ext_resource type="Texture2D" uid="uid://cgf0mkoekplrc" path="res://art/Itchio Art/TileSet-36x36.png" id="3_vdh54"]
 [ext_resource type="PackedScene" uid="uid://c8go8r34jf1yw" path="res://scene/player.tscn" id="4_d8w7t"]
+[ext_resource type="PackedScene" uid="uid://b54ea44eaa0ls" path="res://scene/bat_enemy.tscn" id="6_y15gs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y15gs"]
 texture = ExtResource("2_d8w7t")
@@ -84,6 +85,9 @@ tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_vgrrk")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y15gs"]
+size = Vector2(783, 20)
+
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_vdh54")
 
@@ -107,3 +111,17 @@ layer_1/tile_data = PackedInt32Array(-131071, 262144, 0, -131070, 262144, 0, -13
 
 [node name="Player" parent="." instance=ExtResource("4_d8w7t")]
 position = Vector2(370, -144)
+
+[node name="BatEnemy" parent="." instance=ExtResource("6_y15gs")]
+position = Vector2(310, -84)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(1, 2, 3, -152, -3, -325, 866, -326, 861, -11, 809, -9, 810, -284, 22, -290, 30, -4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(421.5, -35)
+shape = SubResource("RectangleShape2D_y15gs")

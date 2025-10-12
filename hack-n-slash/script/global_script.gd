@@ -1,5 +1,6 @@
 extends Node
 
+var playerBody: CharacterBody2D
 var playerWeaponEquip:bool
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
