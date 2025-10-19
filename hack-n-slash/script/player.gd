@@ -83,6 +83,7 @@ func toggle_flip_sprite(dir):
 		animated_sprite.flip_h = false
 	if dir == -1:
 		animated_sprite.flip_h = true
+		attack_zone.scale.x = -1
 		
 	
 func _on_animated_sprite_2d_animation_finished() -> void:
