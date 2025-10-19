@@ -10,43 +10,94 @@ var attack_type: String
 var current_attack: bool	
 var weapon_equip: bool
 
+var health:int = 100
+var health_max:int = 100
+var health_min:int = 0
+var can_take_damage:bool 	
+var dead:bool 
+var just_died:bool
+
 func _ready() -> void:
 	global_script.playerBody = self
+	dead = false
+	can_take_damage= true
+	just_died = false
 
 func _physics_process(delta: float) -> void:
-	global_script.playerAttackZone = attack_zone
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+	if dead and !just_died:
+		just_died = true
+		velocity.x = 0
+		handle_death_animation()
+	elif !dead:
+		global_script.playerAttackZone = attack_zone
+		global_script.playerAlive = true
+		# Add the gravity.
+		if not is_on_floor():
+			velocity += get_gravity() * delta
 
-	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		# Handle jump.
+		if Input.is_action_just_pressed("jump") and is_on_floor():
+			velocity.y = JUMP_VELOCITY
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("left", "right")
-	handle_movement_animation(direction)
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-	
-	if weapon_equip and !current_attack:
-		var normal_attack = Input.is_action_just_pressed("normal_attack")
-		var double_attack = Input.is_action_just_pressed("double_attack")
-		if normal_attack or double_attack:
-			current_attack = true
-			if is_on_floor():
-				if normal_attack:
-					attack_type = "single"
+		var direction := Input.get_axis("left", "right")
+		handle_movement_animation(direction)
+		check_hitbox()
+		if direction:
+			velocity.x = direction * SPEED
+		else:
+			velocity.x = move_toward(velocity.x, 0, SPEED)
+		
+		if weapon_equip and !current_attack:
+			var normal_attack = Input.is_action_just_pressed("normal_attack")
+			var double_attack = Input.is_action_just_pressed("double_attack")
+			if normal_attack or double_attack:
+				current_attack = true
+				if is_on_floor():
+					if normal_attack:
+						attack_type = "single"
+					else:
+						attack_type = "double"
 				else:
-					attack_type = "double"
-			else:
-				attack_type = "air"
-			set_attack_damage(attack_type)
-			handle_attack_animation(attack_type)
+					attack_type = "air"
+				set_attack_damage(attack_type)
+				handle_attack_animation(attack_type)
 	move_and_slide()
+
+func handle_death_animation():
+	animated_sprite.offset.y = 6
+	animated_sprite.play("death")
+	for i in range(40):
+		$Camera2D.zoom.x += 0.1
+		$Camera2D.zoom.y += 0.1
+		await get_tree().create_timer(0.1).timeout
+	
+	self.queue_free()
+
+func check_hitbox():
+	var hitbox_areas = $PlayerHitbox.get_overlapping_areas()
+	var damage:int = 0
+	if hitbox_areas:
+		for hitbox in hitbox_areas:
+			if	hitbox.get_parent() is BatEnemy:
+				damage = global_script.batDamageAmount
+	
+	if can_take_damage and damage != 0:
+		take_damage(damage)
+
+func take_damage(damage):
+	if health > 0:
+		health -= damage
+		print("player health",str(health))
+		if health <= 0:
+			health = 0
+			dead = true
+			global_script.playerAlive = false
+		take_damage_cooldown(1.0)
+
+func take_damage_cooldown(cooldown):
+	can_take_damage = false
+	await get_tree().create_timer(cooldown).timeout
+	can_take_damage = true
 
 func set_attack_damage(attack:String):
 	var damage:int

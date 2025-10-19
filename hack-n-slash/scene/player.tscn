@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://c8go8r34jf1yw"]
+[gd_scene load_steps=60 format=3 uid="uid://c8go8r34jf1yw"]
 
 [ext_resource type="Script" uid="uid://s3idaapg3o6c" path="res://script/player.gd" id="1_2fvbb"]
 [ext_resource type="Texture2D" uid="uid://b57j7l57lxw35" path="res://art/Itchio Art/Dacian Warrior Animated Pixel-Art 2D/Dacian Warrior Animated Pixel-Art 2D/Attack/50x50/Attack 0-1 Sprite Sheet.png" id="1_g2vtq"]
@@ -388,13 +388,19 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ml7e8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2fvbb"]
+radius = 16.0
+height = 32.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ihjo1"]
+radius = 11.0
+height = 32.0
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_2fvbb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ymct0")
-animation = &"double_attack"
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -408,8 +414,14 @@ position_smoothing_enabled = true
 [node name="AttackZone" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackZone"]
-position = Vector2(12, 5)
+position = Vector2(8, 5)
 shape = SubResource("CapsuleShape2D_2fvbb")
 disabled = true
+
+[node name="PlayerHitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHitbox"]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_ihjo1")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
