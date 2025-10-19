@@ -14,6 +14,7 @@ func _ready() -> void:
 	global_script.playerBody = self
 
 func _physics_process(delta: float) -> void:
+	global_script.playerAttackZone = attack_zone
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -43,21 +44,43 @@ func _physics_process(delta: float) -> void:
 					attack_type = "double"
 			else:
 				attack_type = "air"
+			set_attack_damage(attack_type)
 			handle_attack_animation(attack_type)
 	move_and_slide()
 
-func handle_attack_animation(attack_type:String):
-	if weapon_equip:
-		if attack_type == "single":
-			animated_sprite.play("single_attack")
-		elif attack_type == "double":
-			animated_sprite.play("double_attack")
-		elif attack_type == "air":
-			animated_sprite.play("air_attack")
-	else:
-		pass
-		
+func set_attack_damage(attack:String):
+	var damage:int
+	if attack == "single":
+		damage = 8
+	elif attack == "double":
+		damage = 16
+	elif attack == "air":
+		damage =20
+	global_script.playerDamageAmount = damage
 
+func handle_attack_animation(attack:String):
+	if weapon_equip:
+		if attack == "single":
+			animated_sprite.play("single_attack")
+		elif attack == "double":
+			animated_sprite.play("double_attack")
+		elif attack == "air":
+			animated_sprite.play("air_attack")
+		toggle_damage_collision(attack)
+	
+		
+func toggle_damage_collision(attack):
+	var damage_zone_collision = attack_zone.get_node("CollisionShape2D")
+	var wait_time : float
+	if attack == "single":
+		wait_time = 0.33
+	elif attack == "double":
+		wait_time = 0.9
+	elif attack == "air":
+		wait_time = 0.4	
+	damage_zone_collision.disabled = false
+	await get_tree().create_timer(wait_time).timeout
+	damage_zone_collision.disabled = true
 
 func handle_movement_animation(dir):
 	toggle_flip_sprite(dir)
@@ -81,9 +104,11 @@ func handle_movement_animation(dir):
 func toggle_flip_sprite(dir):
 	if dir == 1:
 		animated_sprite.flip_h = false
+		attack_zone.scale.x = 1
 	if dir == -1:
 		animated_sprite.flip_h = true
 		attack_zone.scale.x = -1
+		
 		
 	
 func _on_animated_sprite_2d_animation_finished() -> void:
