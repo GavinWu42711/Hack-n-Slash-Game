@@ -114,6 +114,8 @@ position = Vector2(370, -144)
 
 [node name="BatEnemy" parent="." instance=ExtResource("6_y15gs")]
 position = Vector2(310, -84)
+collision_layer = 2
+collision_mask = 2
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 2
