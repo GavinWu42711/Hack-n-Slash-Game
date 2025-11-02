@@ -3,6 +3,8 @@ extends Node
 var playerBody: CharacterBody2D
 var playerWeaponEquip:bool
 
+var combatStarted:bool
+
 var playerAlive:bool
 var playerAttackZone: Area2D
 var playerDamageAmount: int

@@ -117,11 +117,13 @@ texture = ExtResource("4_oqper")
 position = Vector2(-236, -109)
 texture = ExtResource("5_tnnfg")
 
-[node name="BottomBoundry" type="StaticBody2D" parent="."]
+[node name="Player" parent="." instance=ExtResource("6_8omh8")]
+position = Vector2(0, -211)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomBoundry"]
+[node name="StartGameDetection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartGameDetection"]
 position = Vector2(-13, 41)
 shape = SubResource("RectangleShape2D_bla6t")
 
-[node name="Player" parent="." instance=ExtResource("6_8omh8")]
-position = Vector2(12, -92)
+[connection signal="body_entered" from="StartGameDetection" to="." method="_on_start_game_detection_body_entered"]

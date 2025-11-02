@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name Player
+
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var attack_zone = $AttackZone
 
@@ -27,6 +29,8 @@ func _physics_process(delta: float) -> void:
 	if dead and !just_died:
 		just_died = true
 		velocity.x = 0
+		if not is_on_floor():
+			velocity += get_gravity() * delta
 		handle_death_animation()
 	elif !dead:
 		global_script.playerAttackZone = attack_zone
@@ -71,14 +75,15 @@ func handle_death_animation():
 		$Camera2D.zoom.y += 0.1
 		await get_tree().create_timer(0.1).timeout
 	
-	self.queue_free()
+	global_script.combatStarted = false
+	get_tree().change_scene_to_file("res://scene/lobby_level.tscn")
 
 func check_hitbox():
 	var hitbox_areas = $PlayerHitbox.get_overlapping_areas()
 	var damage:int = 0
 	if hitbox_areas:
 		for hitbox in hitbox_areas:
-			if	hitbox.get_parent() is BatEnemy:
+			if	hitbox.get_parent() is BatEnemy && !hitbox.get_parent().dead:
 				damage = global_script.batDamageAmount
 	
 	if can_take_damage and damage != 0:
