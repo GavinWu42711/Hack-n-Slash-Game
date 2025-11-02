@@ -16,4 +16,14 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if global_script.playerAlive == false:
+		go_to_lobby()
+
+func go_to_lobby():
+	global_script.combatStarted = false
+	global_script.playerWeaponEquip = false
+	get_tree().change_scene_to_file("res://scene/lobby_level.tscn")
+
+func restart_combat():
+	get_tree().change_scene_to_file("res://scene/stage.tscn")
+	

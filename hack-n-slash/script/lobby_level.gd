@@ -16,5 +16,9 @@ func _process(delta: float) -> void:
 
 func _on_start_game_detection_body_entered(body: Node2D) -> void:
 	if body is Player:
-		get_tree().change_scene_to_file("res://scene/stage.tscn")
 		global_script.combatStarted = true
+		call_deferred("change_scene")
+		
+
+func change_scene():
+	get_tree().change_scene_to_file("res://scene/stage.tscn")

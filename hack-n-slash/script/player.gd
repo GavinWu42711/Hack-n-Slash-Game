@@ -26,19 +26,15 @@ func _ready() -> void:
 	just_died = false
 
 func _physics_process(delta: float) -> void:
+	if not is_on_floor():
+			velocity += get_gravity() * delta
 	if dead and !just_died:
 		just_died = true
 		velocity.x = 0
-		if not is_on_floor():
-			velocity += get_gravity() * delta
-		handle_death_animation()
+		handle_death_animation(delta)
 	elif !dead:
 		global_script.playerAttackZone = attack_zone
 		global_script.playerAlive = true
-		# Add the gravity.
-		if not is_on_floor():
-			velocity += get_gravity() * delta
-
 		# Handle jump.
 		if Input.is_action_just_pressed("jump") and is_on_floor():
 			velocity.y = JUMP_VELOCITY
@@ -67,16 +63,17 @@ func _physics_process(delta: float) -> void:
 				handle_attack_animation(attack_type)
 	move_and_slide()
 
-func handle_death_animation():
+func handle_death_animation(delta):
 	animated_sprite.offset.y = 6
 	animated_sprite.play("death")
 	for i in range(40):
+		if not is_on_floor():
+			velocity += get_gravity() * delta
 		$Camera2D.zoom.x += 0.1
 		$Camera2D.zoom.y += 0.1
 		await get_tree().create_timer(0.1).timeout
+	global_script.playerAlive = false
 	
-	global_script.combatStarted = false
-	get_tree().change_scene_to_file("res://scene/lobby_level.tscn")
 
 func check_hitbox():
 	var hitbox_areas = $PlayerHitbox.get_overlapping_areas()
@@ -96,7 +93,6 @@ func take_damage(damage):
 		if health <= 0:
 			health = 0
 			dead = true
-			global_script.playerAlive = false
 		take_damage_cooldown(1.0)
 
 func take_damage_cooldown(cooldown):
