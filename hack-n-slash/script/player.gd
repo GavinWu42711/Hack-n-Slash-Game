@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 class_name Player
 
+@onready var SceneTransitionAnimation:AnimationPlayer
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var attack_zone = $AttackZone
 
@@ -20,6 +21,7 @@ var dead:bool
 var just_died:bool
 
 func _ready() -> void:
+	SceneTransitionAnimation = get_parent().get_node("SceneTransitionAnimation").get_node("AnimationPlayer")
 	global_script.playerBody = self
 	dead = false
 	can_take_damage= true
@@ -66,6 +68,8 @@ func _physics_process(delta: float) -> void:
 func handle_death_animation(delta):
 	animated_sprite.offset.y = 6
 	animated_sprite.play("death")
+	SceneTransitionAnimation.play("death_transition")
+	$Camera2D.limit_enabled = false
 	for i in range(40):
 		if not is_on_floor():
 			velocity += get_gravity() * delta
@@ -89,6 +93,7 @@ func check_hitbox():
 func take_damage(damage):
 	if health > 0:
 		health -= damage
+		SceneTransitionAnimation.play("take_damage")
 		print("player health",str(health))
 		if health <= 0:
 			health = 0

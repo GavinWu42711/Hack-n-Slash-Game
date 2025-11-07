@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmv87cw8m4nt4"]
+[gd_scene load_steps=14 format=3 uid="uid://bmv87cw8m4nt4"]
 
 [ext_resource type="Texture2D" uid="uid://ded87uroi4h55" path="res://art/Itchio Art/Background.png" id="1_bla6t"]
 [ext_resource type="Script" uid="uid://c3gfw88yotity" path="res://script/lobby_level.gd" id="1_qrc23"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://di6bk68cqmaut" path="res://art/Itchio Art/House1.png" id="4_oqper"]
 [ext_resource type="Texture2D" uid="uid://cklocilv0wvw8" path="res://art/Itchio Art/Tree1.png" id="5_tnnfg"]
 [ext_resource type="PackedScene" uid="uid://c8go8r34jf1yw" path="res://scene/player.tscn" id="6_8omh8"]
+[ext_resource type="PackedScene" uid="uid://pnrkt0skjeop" path="res://scene/scene_transition.tscn" id="8_oqper"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mxa30"]
 texture = ExtResource("2_8omh8")
@@ -125,5 +126,7 @@ position = Vector2(0, -211)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StartGameDetection"]
 position = Vector2(-13, 41)
 shape = SubResource("RectangleShape2D_bla6t")
+
+[node name="SceneTransitionAnimation" parent="." instance=ExtResource("8_oqper")]
 
 [connection signal="body_entered" from="StartGameDetection" to="." method="_on_start_game_detection_body_entered"]

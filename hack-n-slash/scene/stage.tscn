@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bdtxho0h25ho8"]
+[gd_scene load_steps=13 format=3 uid="uid://bdtxho0h25ho8"]
 
 [ext_resource type="Texture2D" uid="uid://ded87uroi4h55" path="res://art/Itchio Art/Background.png" id="1_svt74"]
 [ext_resource type="Script" uid="uid://ogxxai1cyrcr" path="res://script/stage_level.gd" id="1_vdh54"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cgf0mkoekplrc" path="res://art/Itchio Art/TileSet-36x36.png" id="3_vdh54"]
 [ext_resource type="PackedScene" uid="uid://c8go8r34jf1yw" path="res://scene/player.tscn" id="4_d8w7t"]
 [ext_resource type="PackedScene" uid="uid://b54ea44eaa0ls" path="res://scene/bat_enemy.tscn" id="6_y15gs"]
+[ext_resource type="PackedScene" uid="uid://pnrkt0skjeop" path="res://scene/scene_transition.tscn" id="7_opmqi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y15gs"]
 texture = ExtResource("2_d8w7t")
@@ -130,3 +131,5 @@ polygon = PackedVector2Array(1, 2, 3, -152, -3, -325, 866, -326, 861, -11, 809, 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(421.5, -35)
 shape = SubResource("RectangleShape2D_y15gs")
+
+[node name="SceneTransitionAnimation" parent="." instance=ExtResource("7_opmqi")]

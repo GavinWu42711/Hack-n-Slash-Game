@@ -1,9 +1,12 @@
 extends Node2D
 
+@onready var SceneTransitionAnimation = $SceneTransitionAnimation/AnimationPlayer
 @onready var player_camera = $Player/Camera2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	SceneTransitionAnimation.get_parent().get_node("ColorRect").color.a = 255
+	SceneTransitionAnimation.play("fade_out")
 	global_script.playerWeaponEquip = true
 	player_camera.enabled = true
 	player_camera.limit_enabled = true
@@ -22,8 +25,10 @@ func _process(delta: float) -> void:
 func go_to_lobby():
 	global_script.combatStarted = false
 	global_script.playerWeaponEquip = false
+	
 	get_tree().change_scene_to_file("res://scene/lobby_level.tscn")
 
 func restart_combat():
+	
 	get_tree().change_scene_to_file("res://scene/stage.tscn")
 	
