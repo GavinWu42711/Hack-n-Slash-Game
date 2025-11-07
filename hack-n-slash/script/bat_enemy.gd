@@ -12,7 +12,8 @@ var health_max:int = 50
 var health_min:int = 0	
 var dead:bool = false
 var taking_damage:bool = false
-var attack_damage:int = 20
+var attack_damage:int = 10
+var knockback_force:int = 50
 
 func _ready():
 	is_bat_chase = true
@@ -21,7 +22,6 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	
 	global_script.batDamageAmount = attack_damage
-	global_script.batDamageZone = $BatAttackHitbox
 	
 	if global_script.playerAlive:
 		is_bat_chase = true
@@ -44,7 +44,7 @@ func move(delta):
 			await get_tree().create_timer(3.0).timeout
 			self.queue_free()
 	elif taking_damage:
-		var knockback_dir = position.direction_to(player.position) * -50
+		var knockback_dir = position.direction_to(player.position) * knockback_force * -1
 		velocity = knockback_dir
 	else:
 		if !is_bat_chase:

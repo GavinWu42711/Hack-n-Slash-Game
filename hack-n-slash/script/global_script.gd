@@ -8,9 +8,13 @@ var combatStarted:bool
 var playerAlive:bool
 var playerAttackZone: Area2D
 var playerDamageAmount: int
+var playerHitbox: Area2D
 
-var batDamageZone: Area2D
+
 var batDamageAmount:int
+
+var frogDamageAmount:int
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

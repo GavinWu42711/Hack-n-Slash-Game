@@ -388,7 +388,7 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ml7e8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2fvbb"]
-radius = 18.0
+radius = 19.0
 height = 40.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ihjo1"]
@@ -400,7 +400,9 @@ script = ExtResource("1_2fvbb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ymct0")
-animation = &"idle"
+animation = &"double_attack"
+frame = 8
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -414,7 +416,7 @@ position_smoothing_enabled = true
 [node name="AttackZone" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackZone"]
-position = Vector2(8, 5)
+position = Vector2(4, 3)
 shape = SubResource("CapsuleShape2D_2fvbb")
 disabled = true
 

@@ -23,6 +23,7 @@ var just_died:bool
 func _ready() -> void:
 	SceneTransitionAnimation = get_parent().get_node("SceneTransitionAnimation").get_node("AnimationPlayer")
 	global_script.playerBody = self
+	global_script.playerHitbox = $PlayerHitbox
 	dead = false
 	can_take_damage= true
 	just_died = false
@@ -86,6 +87,8 @@ func check_hitbox():
 		for hitbox in hitbox_areas:
 			if	hitbox.get_parent() is BatEnemy && !hitbox.get_parent().dead:
 				damage = global_script.batDamageAmount
+			if hitbox is Frog_Attack_Hitbox and !hitbox.get_parent().dead:
+				damage = global_script.frogDamageAmount
 	
 	if can_take_damage and damage != 0:
 		take_damage(damage)
@@ -166,7 +169,5 @@ func toggle_flip_sprite(dir):
 		animated_sprite.flip_h = true
 		attack_zone.scale.x = -1
 		
-		
-	
 func _on_animated_sprite_2d_animation_finished() -> void:
 	current_attack = false
