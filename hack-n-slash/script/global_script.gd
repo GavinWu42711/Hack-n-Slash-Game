@@ -10,6 +10,8 @@ var playerAttackZone: Area2D
 var playerDamageAmount: int
 var playerHitbox: Area2D
 
+var currentWave:int
+var movingToNextWave:bool
 
 var batDamageAmount:int
 

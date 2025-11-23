@@ -388,8 +388,8 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ml7e8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2fvbb"]
-radius = 19.0
-height = 40.0
+radius = 24.0
+height = 48.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ihjo1"]
 radius = 11.0
@@ -416,7 +416,7 @@ position_smoothing_enabled = true
 [node name="AttackZone" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackZone"]
-position = Vector2(4, 3)
+position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_2fvbb")
 disabled = true
 
