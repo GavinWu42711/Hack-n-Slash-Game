@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://c8go8r34jf1yw"]
+[gd_scene load_steps=61 format=3 uid="uid://c8go8r34jf1yw"]
 
 [ext_resource type="Script" uid="uid://s3idaapg3o6c" path="res://script/player.gd" id="1_2fvbb"]
 [ext_resource type="Texture2D" uid="uid://b57j7l57lxw35" path="res://art/Itchio Art/Dacian Warrior Animated Pixel-Art 2D/Dacian Warrior Animated Pixel-Art 2D/Attack/50x50/Attack 0-1 Sprite Sheet.png" id="1_g2vtq"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cobv2yuhb132b" path="res://art/Itchio Art/Dacian Warrior Animated Pixel-Art 2D/Dacian Warrior Animated Pixel-Art 2D/Fall/50x50/Fall 1 Sprite Sheet.png" id="6_34jf3"]
 [ext_resource type="Texture2D" uid="uid://j18bjn8urf7b" path="res://art/Itchio Art/Dacian Warrior Animated Pixel-Art 2D/Dacian Warrior Animated Pixel-Art 2D/Idle/50x50/Idle Sprite 0.png" id="7_u7b46"]
 [ext_resource type="Texture2D" uid="uid://ck56h33rcafwb" path="res://art/Itchio Art/Dacian Warrior Animated Pixel-Art 2D/Dacian Warrior Animated Pixel-Art 2D/Run/50x50/Run Sprite 2.png" id="8_j4wxg"]
+[ext_resource type="PackedScene" uid="uid://cvl8wn80skheg" path="res://scene/health_bar.tscn" id="10_ml7e8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bup7g"]
 atlas = ExtResource("1_g2vtq")
@@ -416,7 +417,7 @@ position_smoothing_enabled = true
 [node name="AttackZone" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackZone"]
-position = Vector2(0, 3)
+position = Vector2(5, 3)
 shape = SubResource("CapsuleShape2D_2fvbb")
 disabled = true
 
@@ -425,5 +426,11 @@ disabled = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHitbox"]
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_ihjo1")
+
+[node name="HealthBar" parent="." instance=ExtResource("10_ml7e8")]
+offset_left = -16.0
+offset_top = 19.0
+offset_right = 15.0
+offset_bottom = 24.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

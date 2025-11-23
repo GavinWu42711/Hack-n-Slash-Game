@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bmv87cw8m4nt4"]
+[gd_scene load_steps=16 format=3 uid="uid://bmv87cw8m4nt4"]
 
 [ext_resource type="Texture2D" uid="uid://ded87uroi4h55" path="res://art/Itchio Art/Background.png" id="1_bla6t"]
 [ext_resource type="Script" uid="uid://c3gfw88yotity" path="res://script/lobby_level.gd" id="1_qrc23"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://cklocilv0wvw8" path="res://art/Itchio Art/Tree1.png" id="5_tnnfg"]
 [ext_resource type="PackedScene" uid="uid://c8go8r34jf1yw" path="res://scene/player.tscn" id="6_8omh8"]
 [ext_resource type="PackedScene" uid="uid://pnrkt0skjeop" path="res://scene/scene_transition.tscn" id="8_oqper"]
+[ext_resource type="Script" uid="uid://ds7ao4lb66s14" path="res://script/high_score_label.gd" id="9_tnnfg"]
+[ext_resource type="Script" uid="uid://b86lxha4skv1o" path="res://script/previous_score_label.gd" id="10_73hxh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mxa30"]
 texture = ExtResource("2_8omh8")
@@ -94,8 +96,8 @@ script = ExtResource("1_qrc23")
 [node name="BgSprites" type="StaticBody2D" parent="."]
 
 [node name="Background" type="Sprite2D" parent="BgSprites"]
-position = Vector2(-33, -106)
-scale = Vector2(1.7052631, 1.396)
+position = Vector2(3, -142)
+scale = Vector2(4.144737, 3.8920002)
 texture = ExtResource("1_bla6t")
 
 [node name="BushTileMap" type="TileMap" parent="BgSprites"]
@@ -128,5 +130,23 @@ position = Vector2(-13, 41)
 shape = SubResource("RectangleShape2D_bla6t")
 
 [node name="SceneTransitionAnimation" parent="." instance=ExtResource("8_oqper")]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="HighScoreLabel" type="RichTextLabel" parent="StaticBody2D"]
+offset_left = -59.0
+offset_top = -197.0
+offset_right = 206.0
+offset_bottom = -157.0
+text = "High Score: "
+script = ExtResource("9_tnnfg")
+
+[node name="PreviousScoreLabel" type="RichTextLabel" parent="StaticBody2D"]
+offset_left = -59.0
+offset_top = -174.0
+offset_right = 177.0
+offset_bottom = -134.0
+text = "Previous Score: "
+script = ExtResource("10_73hxh")
 
 [connection signal="body_entered" from="StartGameDetection" to="." method="_on_start_game_detection_body_entered"]

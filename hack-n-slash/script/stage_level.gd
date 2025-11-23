@@ -6,7 +6,7 @@ var currentWave:int
 
 var startingNodes:int
 var currentNodes:int
-var waveSpawnEnded:bool
+var waveSpawnEnded:bool = false
 
 @onready var SceneTransitionAnimation = $SceneTransitionAnimation/AnimationPlayer
 @onready var player_camera = $Player/Camera2D
@@ -38,13 +38,15 @@ func _ready() -> void:
 	
 func position_to_next_wave() -> void:
 	if currentNodes == startingNodes:
+		waveSpawnEnded = false
 		if currentWave != 0:
 			global_script.movingToNextWave = true
 			SceneTransitionAnimation.play("betweenWave")
 			await get_tree().create_timer(1).timeout
+			global_script.movingToNextWave = false
 		currentWave += 1
 		prepare_spawn("bat",3,3)
-		prepare_spawn("frog",3,3)
+		prepare_spawn("frog",2,2)
 		global_script.currentWave = currentWave	
 		
 
@@ -53,13 +55,11 @@ func prepare_spawn(type:String,multiplier:float, spawnRoundAmount:int) -> void:
 	var spawnTime: float = 2.0
 	var initialWaitTime:float = 2.5
 	var mobSpawnPerRound:int = int(ceil(mobAmount / spawnRoundAmount))
-	print("mobAmount:" + str(mobAmount))
-	print("mobSpawnPerRound:" + str(mobSpawnPerRound))
-	print("spawnRoundAmount:" + str(spawnRoundAmount))
 	await get_tree().create_timer(2.5).timeout
-	spawn_enemy(type,spawnRoundAmount,mobSpawnPerRound,spawnTime)
+	if multiplier != 0:
+		spawn_enemy(type,spawnRoundAmount,mobSpawnPerRound,spawnTime)
 
-func spawn_enemy(type:String,spawnRoundAmount:int,mobSpawnPerRound:int,spawnTime:float):
+func spawn_enemy(type:String,spawnRoundAmount:int,mobSpawnPerRound:int,spawnTime:float) -> void:
 	for a in range(spawnRoundAmount):
 		if type == "bat":
 			for b in range(mobSpawnPerRound):
@@ -78,21 +78,36 @@ func spawn_enemy(type:String,spawnRoundAmount:int,mobSpawnPerRound:int,spawnTime
 				frog.global_position.y = positionY
 				add_child(frog)
 		await get_tree().create_timer(spawnTime).timeout
+	waveSpawnEnded = true
 		
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	update_highscore()
 	if global_script.playerAlive == false:
+		update_score_on_death()
 		go_to_lobby()
+	currentNodes = get_child_count()
+	
+	if waveSpawnEnded:
+		position_to_next_wave()
+		
+func update_score_on_death() -> void:
+	global_script.previousScore = global_script.currentScore
+	global_script.currentScore = 0
 
-func go_to_lobby():
+func update_highscore() -> void:
+	if global_script.currentScore > global_script.highscore:
+		global_script.highscore = global_script.currentScore
+
+func go_to_lobby() -> void:
 	global_script.combatStarted = false
 	global_script.playerWeaponEquip = false
 	
 	get_tree().change_scene_to_file("res://scene/lobby_level.tscn")
 
-func restart_combat():
+func restart_combat() -> void:
 	
 	get_tree().change_scene_to_file("res://scene/stage.tscn")
 	

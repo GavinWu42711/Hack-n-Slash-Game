@@ -13,6 +13,10 @@ var playerHitbox: Area2D
 var currentWave:int
 var movingToNextWave:bool
 
+var highscore:int
+var currentScore:int
+var previousScore:int
+
 var batDamageAmount:int
 
 var frogDamageAmount:int

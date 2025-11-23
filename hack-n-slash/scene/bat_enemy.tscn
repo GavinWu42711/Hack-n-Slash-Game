@@ -1,10 +1,11 @@
-[gd_scene load_steps=31 format=3 uid="uid://b54ea44eaa0ls"]
+[gd_scene load_steps=32 format=3 uid="uid://b54ea44eaa0ls"]
 
 [ext_resource type="Script" uid="uid://cqhakl3fdrik" path="res://script/bat_enemy.gd" id="1_m453m"]
 [ext_resource type="Texture2D" uid="uid://6ntcnauag55e" path="res://art/Itchio Art/Bat/Standard/BatStandard_Attack.png" id="2_j6x17"]
 [ext_resource type="Texture2D" uid="uid://dolwk0soahx6v" path="res://art/Itchio Art/Bat/Standard/BatStandard_Death.png" id="3_pqa53"]
 [ext_resource type="Texture2D" uid="uid://boinh7q6dp6kl" path="res://art/Itchio Art/Bat/Standard/BatStandard_Flying.png" id="4_swo40"]
 [ext_resource type="Texture2D" uid="uid://bak1k80f6pyyx" path="res://art/Itchio Art/Bat/Standard/BatStandard_Hurt.png" id="5_1i477"]
+[ext_resource type="PackedScene" uid="uid://cvl8wn80skheg" path="res://scene/health_bar.tscn" id="6_j6x17"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1svno"]
 atlas = ExtResource("2_j6x17")
@@ -215,6 +216,12 @@ shape = SubResource("CircleShape2D_m453m")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BatAttackHitbox"]
 position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_j6x17")
+
+[node name="HealthBar" parent="." instance=ExtResource("6_j6x17")]
+offset_left = -6.0
+offset_top = 11.0
+offset_right = 7.0
+offset_bottom = 15.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="area_entered" from="BatHitbox" to="." method="_on_bat_hitbox_area_entered"]

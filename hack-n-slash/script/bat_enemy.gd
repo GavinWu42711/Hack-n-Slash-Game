@@ -14,6 +14,7 @@ var dead:bool = false
 var taking_damage:bool = false
 var attack_damage:int = 10
 var knockback_force:int = 50
+var pointValue:int = 10
 
 func _ready():
 	is_bat_chase = true
@@ -42,6 +43,7 @@ func move(delta):
 			velocity.y = 0
 			velocity.x = 0
 			await get_tree().create_timer(3.0).timeout
+			global_script.currentScore += pointValue
 			self.queue_free()
 	elif taking_damage:
 		var knockback_dir = position.direction_to(player.position) * knockback_force * -1

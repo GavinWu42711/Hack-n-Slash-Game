@@ -25,10 +25,11 @@ var dir: Vector2
 const gravity = 900
 var knockback_force = 100
 
-
 var player:CharacterBody2D
 var player_touching:bool = false
 var player_in_area:bool = false
+
+var pointValue:int = 20
 
 func _ready() -> void:
 	player = global_script.playerBody
@@ -127,6 +128,7 @@ func handle_animation():
 		animated_sprite.play("idle")
 
 func handle_death():
+	global_script.currentScore += pointValue
 	self.queue_free()
 		
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bdtxho0h25ho8"]
+[gd_scene load_steps=16 format=3 uid="uid://bdtxho0h25ho8"]
 
 [ext_resource type="Texture2D" uid="uid://ded87uroi4h55" path="res://art/Itchio Art/Background.png" id="1_svt74"]
 [ext_resource type="Script" uid="uid://ogxxai1cyrcr" path="res://script/stage_level.gd" id="1_vdh54"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://b54ea44eaa0ls" path="res://scene/bat_enemy.tscn" id="6_y15gs"]
 [ext_resource type="PackedScene" uid="uid://pnrkt0skjeop" path="res://scene/scene_transition.tscn" id="7_opmqi"]
 [ext_resource type="PackedScene" uid="uid://da1tx3aeauqku" path="res://scene/frog_enemy.tscn" id="7_vgrrk"]
+[ext_resource type="Script" uid="uid://b747ixp1se2lh" path="res://script/current_score_label.gd" id="9_d44bn"]
+[ext_resource type="Script" uid="uid://jwuct2n1n86d" path="res://script/wave_label.gd" id="10_vd2nq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y15gs"]
 texture = ExtResource("2_d8w7t")
@@ -143,3 +145,22 @@ position = Vector2(55, -131)
 
 [node name="FrogSpawnBottomRight" type="Marker2D" parent="."]
 position = Vector2(787, -97)
+
+[node name="ScoreLabels" type="StaticBody2D" parent="."]
+
+[node name="ScoreLabel" type="RichTextLabel" parent="ScoreLabels"]
+offset_left = 35.0
+offset_top = -15.0
+offset_right = 223.0
+offset_bottom = 25.0
+text = "Score:
+"
+script = ExtResource("9_d44bn")
+
+[node name="WaveLabel" type="RichTextLabel" parent="ScoreLabels"]
+offset_left = 35.0
+offset_top = 5.0
+offset_right = 197.0
+offset_bottom = 45.0
+text = "Wave:"
+script = ExtResource("10_vd2nq")
